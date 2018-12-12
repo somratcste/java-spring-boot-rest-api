@@ -5,31 +5,25 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class TopicService {
 	
 	@Autowired
 	private TopicRepository topicRepository;
 
-//	private List<Topic> topics = new ArrayList<>(Arrays.asList(
-//			new Topic("spring", "spring framework", "Spring Framework Description"),
-//			new Topic("java", "spring framework", "Spring Framework Description"),
-//			new Topic("php", "spring framework", "Spring Framework Description"),
-//			new Topic("sts", "spring framework", "Spring Framework Description"),
-//			new Topic("eclipse", "spring framework", "Spring Framework Description")
-//		));
-	
 	public List<Topic> getAllTopics() {
 		List<Topic> topics = new ArrayList<>();
 		topicRepository.findAll().forEach(topics::add);
 		return topics;
 	}
 	
-	public Optional<Topic> getTopic(String id) {
-//		return topics.stream().filter(t->t.getId().equals(id)).findFirst().get();
+	public Optional<Topic> getTopic(Integer id) {
 		return topicRepository.findById(id);
 	}
 
@@ -37,20 +31,12 @@ public class TopicService {
 		topicRepository.save(topic);
 	}
 
-	public void updateTopic(String id, Topic topic) {
-//		for(int i = 0; i < topics.size(); i++) {
-//			Topic t = topics.get(i);
-//			if(t.getId().equals(id)) {
-//				topics.set(i, topic);
-//				return;
-//			}
-//		}
-		
+	public void updateTopic(Integer id, Topic topic) {
+		topic.setId(id);
 		topicRepository.save(topic);
 	}
 
-	public void deleteTopic(String id) {
-//		topics.removeIf(t -> t.getId().equals(id));
+	public void deleteTopic(Integer id) {
 		topicRepository.deleteById(id);
 	}
 }

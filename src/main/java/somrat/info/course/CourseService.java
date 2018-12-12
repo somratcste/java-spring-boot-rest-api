@@ -5,22 +5,25 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class CourseService {
 	
 	@Autowired
 	private CourseRepository courseRepository;
 	
-	public List<Course> getAllCourses(String topicId) {
+	public List<Course> getAllCourses(Integer topicId) {
 		List<Course> topics = new ArrayList<>();
 		courseRepository.findByTopicId(topicId).forEach(topics::add);
 		return topics;
 	}
 	
-	public Optional<Course> getCourse(String id) {
+	public Optional<Course> getCourse(Integer id) {
 		return courseRepository.findById(id);
 	}
 
@@ -28,11 +31,12 @@ public class CourseService {
 		courseRepository.save(course);
 	}
 
-	public void updateCourse(Course course) {
+	public void updateCourse(Integer id, Course course) {
+		course.setId(id);
 		courseRepository.save(course);
 	}
 
-	public void deleteCourse(String id) {
+	public void deleteCourse(Integer id) {
 		courseRepository.deleteById(id);
 	}
 }

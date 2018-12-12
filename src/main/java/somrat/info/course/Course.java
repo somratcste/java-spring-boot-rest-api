@@ -1,6 +1,8 @@
 package somrat.info.course;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -10,18 +12,15 @@ import somrat.info.topic.Topic;
 public class Course {
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 	private String name;
 	private String description;
 	
 	@ManyToOne
 	private Topic topic;
 	
-	public Course() {
-		
-	}
-	
-	public Course(String id, String name, String description, String topicId) {
+	public Course(Integer id, String name, String description, Integer topicId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -29,10 +28,16 @@ public class Course {
 		this.topic = new Topic(topicId, "", "");
 	}
 
-	public String getId() {
+	public Course() {
+		super();
+	}
+	
+	
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getName() {
